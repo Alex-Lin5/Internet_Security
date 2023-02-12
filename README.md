@@ -1,6 +1,16 @@
 # Internet_Security
 This project implements several internet security related tools and conceptions in high-level perspective. The scripts are written in Python language.
 
+## Docker Manual
+```
+$ docker-compose build  # Build the container image
+$ docker-compose up     # Start the container
+$ docker-compose down   # Shut down the container
+$ docker network ls     # Find out network ID of docker containers
+$ docker ps             # List all the running containers in docker
+$ dockps        // Alias for: docker ps --format "{{.ID}}  {{.Names}}"
+$ docksh <id>   // Alias for: docker exec -it <id> /bin/bash
+```
 ## Acknowledge
 Python scripts provided in this repository is built upon work in SEED Lab led by Dr.Du who is a professor in Syracuse University.
 - https://ecs.syracuse.edu/faculty-staff/wenliang-kevin-du
