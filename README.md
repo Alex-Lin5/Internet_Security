@@ -2,6 +2,7 @@
 This project implements several internet security related tools and conceptions in high-level perspective. The scripts are written in Python language.
 
 ## Docker Manual
+Docker command alias has permission problem comparing to the full command. Container might not build or run, if type `dcbuild` command in terminal, but `docker-compose build` would work.
 ```
 $ docker-compose build  # Build the container image
 $ docker-compose up     # Start the container
