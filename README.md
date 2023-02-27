@@ -4,6 +4,28 @@ This project implements several internet security related tools and conceptions 
 ## Command Tools
 `ifconfig` command, check out network interface in the host
 `nc -lnv <port>` command, set up netcat TCP listenning application from any host to the port number <port> in this host
+`mtr -n <host IP>` command, find the traceroute from current host to destiny host in real time
+
+## Environment
+- Oracle VM VirtualBox 6.1.42r155177(Qt5.6.2)
+- 64 bit Ubuntu 20.04.1 LTS
+```
+$ uname -ra
+Linux VM 5.4.0-54-generic #60-Ubuntu SMP Fri Nov 6 10:37:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+$ gcc --version
+gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0
+Copyright (C) 2019 Free Software Foundation, Inc.
+
+$ python3 --version
+Python 3.8.5
+$ python3 -m pip show scapy
+Name: scapy
+Version: 2.4.4
+$ wireshark -v
+Wireshark 3.2.3 (Git v3.2.3 packaged as 3.2.3-1)
+Copyright 1998-2020 Gerald Combs <gerald@wireshark.org> and contributors.
+
+```
 ## Docker Manual
 Docker command alias has permission problem comparing to the full command. Container might not build or run, if type `dcbuild` command in terminal, but `docker-compose build` would work.
 ```
