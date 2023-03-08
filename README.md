@@ -2,9 +2,11 @@
 This project implements several internet security related tools and conceptions in high-level perspective. The scripts are primarily written in Python language.
 
 ## Command Tools
-`ifconfig` command, check out network interface in the host
-`nc -lnv <port>` command, set up netcat TCP listenning application from any host to the port number <port> in this host
-`mtr -n <host IP>` command, find the traceroute from current host to destiny host in real time
+- `ifconfig` command, check out network interface in the host
+- `nc -lnv <port>` command, set up netcat TCP listenning application from any host to the port number <port> in this host
+- `mtr -n <host IP>` command, find the traceroute from current host to destiny host in real time
+- `kill -9 <pid>`, to kill process <pid>. `ps`, to find all avaiable processes in OS
+- `echo "String" > /dev/<protocol(udp/tcp)>/<IP>/<Port>`, send a single packet with payload "String" to host <IP> <Port> using <protocol>
 
 ## Environment
 - Oracle VM VirtualBox 6.1.42r155177(Qt5.6.2)
