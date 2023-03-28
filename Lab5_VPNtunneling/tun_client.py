@@ -6,9 +6,9 @@ from scapy.all import IP, ICMP, UDP, socket
 H1 = '192.168.60.5'
 SERVER_PORT = 9090
 TUNIP = '192.168.53.99'
-USER = '10.9.0.5'
-SROUTER = '192.168.60.11'
-UROUTER = '10.9.0.11'
+Client_Eth0 = '10.9.0.12'
+Server_Eth0 = '10.9.0.11'
+HostNetwork = '192.168.60.0/24'
 TUNSETIFF = 0x400454ca
 IFF_TUN   = 0x0001
 IFF_TAP   = 0x0002
@@ -24,13 +24,13 @@ ifname = ifname_bytes.decode('UTF-8')[:16].strip("\x00")
 print("Client program running...")
 print("Interface Name: {}".format(ifname))
 print('tun: ', tun)
-os.system("ip addr add 192.168.53.99/24 dev {}".format(ifname))
+os.system("ip addr add {}/24 dev {}".format(TUNIP, ifname)) # add network mask to let TUN interface display on routing table
 os.system("ip link set dev {} up".format(ifname))
 
 # Create UDP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# add routing direction
-os.system("ip route add 192.168.60.0/24 dev {}".format(ifname))
+# add routing direction, route network on the other side to TUN interface
+os.system("ip route add {} dev {}".format(HostNetwork, ifname))
 
 # Hold the tunnel running
 while True:
@@ -42,12 +42,12 @@ while True:
       data, (ip, port) = sock.recvfrom(2048)
       os.write(tun, data)
       pkt = IP(data)
-      print('From SOCK, ', pkt.summary())
+      print('From SOCK <-, ', pkt.summary())
     if fd is tun:
       packet = os.read(tun, 2048)
-      sock.sendto(packet, (UROUTER, SERVER_PORT))
       pkt = IP(packet)
-      print('From TUN, ', pkt.summary())
+      sock.sendto(packet, (Server_Eth0, SERVER_PORT))
+      print('From TUN  ->, ', pkt.summary())
   
   # ospacket = os.read(tun, 2048)
   # # Get a packet from the tun interface, READ 
@@ -57,7 +57,7 @@ while True:
   #   pkt = IP(ospacket)
   #   print('read: ', pkt.summary())		
   #   # Send the packet via the tunnel
-  #   sock.sendto(ospacket, (UROUTER, SERVER_PORT))
+  #   sock.sendto(ospacket, (Server_Eth0, SERVER_PORT))
 
   #   # Send out a spoof packet using the tun interface, WRITE       
   #   if False: pass
