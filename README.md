@@ -7,6 +7,7 @@ This project implements several internet security related tools and conceptions 
 - `mtr -n <host IP>` command, find the traceroute from current host to destiny host in real time
 - `kill -9 <pid>`, to kill process <pid>. `ps`, to find all avaiable processes in OS
 - `echo "String" > /dev/<protocol(udp/tcp)>/<IP>/<Port>`, send a single packet with payload "String" to host <IP> <Port> using <protocol>
+- `chown -R USER:GROUP DIRECTORY`, change ownership of a directory recursively to User and Group, user or group is optional to fill in
 
 ## Environment
 - Oracle VM VirtualBox 6.1.42r155177(Qt5.6.2)
@@ -35,8 +36,9 @@ $ docker-compose build  # Build the container image
 $ docker-compose up     # Start the container
 $ docker-compose down   # Shut down the container
 $ docker network ls     # Find out network ID of docker containers
-$ docker ps             # List all the running containers in docker
+$ docker network prune  # remove all networks not running in containers now
 $ docker rm <name>      # remove the duplicated container name before generating new one
+$ docker ps             # List all the running containers in docker
 $ dockps        // Alias for: docker ps --format "{{.ID}}  {{.Names}}"
 $ docksh <id>   // Alias for: docker exec -it <id> /bin/bash
 ```
