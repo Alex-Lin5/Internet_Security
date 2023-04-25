@@ -64,10 +64,10 @@ int main()
     // Generate src ip
     char src_ip[4];
     for (int k=0; k<4; k++)  src_ip[k] = rand() % 256;
-
+    transaction_id = 0;
     // Sending packets
     send_dns_request(ip_req, n_req, src_ip, name);
-    for(int i=0; i<100000; i++){
+    for(int i=0; i<65535; i++){
       idx++;
       // Generate transaction id
       // transaction_id = rand();
